@@ -4,6 +4,8 @@ const PORTA = 3000;
 
 const campanhas = [];
 
+const doacoes = [];
+
 const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'application/json');
     const urlObj = new URL(req.url, `http://${req.headers.host}`);
