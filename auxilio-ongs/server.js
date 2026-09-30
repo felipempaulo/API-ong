@@ -8,7 +8,10 @@ const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'application/json');
     const urlObj = new URL(req.url, `http://${req.headers.host}`);
 
-    if (req.method === 'GET' && urlObj.pathname === '/campanhas') {
+    if (req.method === 'GET' && urlObj.pathname === '/') {
+        res.statusCode = 200;
+        res.end(JSON.stringify({mensagem: "API da ONG funcionando!"}));
+    } else if (req.method === 'GET' && urlObj.pathname === '/campanhas') {
         res.statusCode = 200
         res.end(JSON.stringify(campanhas));
     } else if (req.method === 'POST' && urlObj.pathname === '/campanhas') {
