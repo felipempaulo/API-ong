@@ -1,3 +1,7 @@
+import { error } from "node:console";
+import http from "node:http";
+import { url } from "node:inspector";
+
 const http = require('node:http');
 
 const PORTA = 3000;
@@ -14,4 +18,3 @@ const server = http.createServer((req, res) => {
 server.listen(PORTA, () => {
     console.log(`Servidor escutando em http://localhost:${PORTA}`);
 });
-
