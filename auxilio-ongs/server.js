@@ -1,19 +1,17 @@
-import { error } from "node:console";
 import http from "node:http";
-import { url } from "node:inspector";
-
-const http = require('node:http');
 
 const PORTA = 3000;
 
-const server = HTMLOutputElement.createServer((req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    const urlObj = new URL(req.url, `http//${req.headers.host}`);
+const campanhas = [];
 
-    if (req.method === 'GET' && req.url === '/campanhas') {
+const server = http.createServer((req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    const urlObj = new URL(req.url, `http://${req.headers.host}`);
+
+    if (req.method === 'GET' && urlObj.pathname === '/campanhas') {
         res.statusCode = 200
         res.end(JSON.stringify(campanhas));
-    } else if (req.method === 'POST' && req.url === '/campanhas') {
+    } else if (req.method === 'POST' && urlObj.pathname === '/campanhas') {
         let body = ''
 
         req.on('data', chunck => {
@@ -25,8 +23,8 @@ const server = HTMLOutputElement.createServer((req, res) => {
                 const novaCampanha = JSON.parse(body);
 
                 if (!novaCampanha.titulo){
-                    res.statusCode = 400
-                    req.end(JSON.stringify({error: "O campo de título é obrigatório."}));
+                    res.statusCode = 400;
+                    return res.end(JSON.stringify({error: "O campo de título é obrigatório."}));
                 }
 
                 const campanhaCriada = {
@@ -35,12 +33,14 @@ const server = HTMLOutputElement.createServer((req, res) => {
                 }
 
                 campanhas.push(JSON.stringify(campanhaCriada));
+                res.statusCode = 201;
+                res.end(JSON.stringify(campanhaCriada));
             } catch(error){
                 res.statusCode = 400;
                 res.end(JSON.stringify({error: "Formato JSON inválido!"}));
             }
         });
-    } else if (req.method === 'GET' && url.pathname === '/campanhas/busca') {
+    } else if (req.method === 'GET' && urlObj.pathname === '/campanhas/busca') {
         const titulo = urlObj.searchParams.get('titulo');
     } else {
         res.statusCode = 404;
