@@ -2,6 +2,7 @@ import express from 'express';
 
 import campanhasRoutes from "./routes/campanhas.routes.js"
 import doacoesRoutes from "./routes/doacoes.routes.js"
+import usuariosRoutes from "./routes/usuarios.routes.js"
 
 const app = express();
 const PORTA = 3000;
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/campanhas", campanhasRoutes);
 app.use("/doacoes", doacoesRoutes);
+app.use("/usuarios", usuariosRoutes);
 
 app.use((req, res) => {
     res.status(404).json(
