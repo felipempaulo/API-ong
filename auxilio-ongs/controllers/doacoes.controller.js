@@ -1,4 +1,4 @@
-const doacoes = [];
+import { doacoes } from "../data/database";
 
 export function listarDoacoes(req, res) {
     res.status(200).json(doacoes);

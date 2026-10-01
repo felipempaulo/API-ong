@@ -1,4 +1,4 @@
-const campanhas = [];
+import { campanhas } from "../data/database";
 
 export function listarCampanhas(req, res) {
     res.status(200).json(campanhas);
