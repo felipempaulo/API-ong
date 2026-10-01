@@ -1,4 +1,4 @@
-import { campanhas } from "../data/database";
+import { campanhas } from "../data/database.js";
 
 export function listarCampanhas(req, res) {
     res.status(200).json(campanhas);

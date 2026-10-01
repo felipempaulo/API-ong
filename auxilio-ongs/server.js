@@ -23,6 +23,6 @@ app.use((req, res) => {
     )
 })
 
-server.listen(PORTA, () => {
+app.listen(PORTA, () => {
     console.log(`Servidor escutando em http://localhost:${PORTA}`);
 });
