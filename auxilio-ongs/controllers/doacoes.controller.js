@@ -13,7 +13,7 @@ export function criarDoacao(req, res) {
         );
     }
 
-    if(!valor || <= 0) {
+    if(!valor || valor <= 0) {
         return res.status(400).json(
             {error: "O valor da doação deve ser maior que zero."}
         );
