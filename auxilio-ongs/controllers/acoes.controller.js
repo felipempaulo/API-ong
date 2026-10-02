@@ -128,7 +128,7 @@ export function escalarVoluntario(req, res) {
     res.status(201).json(novaEscala);
 }
 
-export function listarVoluntários(req, res) {
+export function listarVoluntarios(req, res) {
     const acaoId = Number(req.params.id);
 
     const acao = acoes.find(
