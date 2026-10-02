@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/", listarAcoes);
 
-router.get("/:id", listarAcoes);
+router.get("/:id", buscarAcao);
 
 router.post("/", criarAcao);
 
