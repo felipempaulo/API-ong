@@ -36,7 +36,7 @@ export function buscarCampanha(req, res) {
 }
 
 export function criarCampanha(req, res) {
-    const {titulo, meta} = req.body;
+    const {titulo, meta, objetivo } = req.body;
 
     if(!titulo) {
     return res.status(400).json(
@@ -50,10 +50,17 @@ export function criarCampanha(req, res) {
     )
    }
 
+   if(!objetivo) {
+    return res.status(400).json(
+        {error: 'O campo de objetivo é obrigatório.'}
+    )
+   }
+
    const campanhaCriada = {
     id: campanhas.length +1,
     titulo,
     meta,
+    objetivo,
     arrecadado: 0
    };
 
