@@ -32,3 +32,23 @@ export function criarUsuario(req, res) {
 
     res.status(201).json(usuarioCriado);
 }
+
+export function deletarUsuario(req, res) {
+    const id = Number(req.params.id);
+
+    const usuario = usuarios.find(
+        usuario => usuario.id === id
+    );
+
+    if(!usuario || usuario <= 0) {
+        return res.status(404).json(
+            {error: "Usuário não encontrado."}
+        )
+    };
+
+    usuarios.splice(usuario, 1);
+    
+    return res.status(200).json(
+        {mensagem: "Usuário deletado."}
+    )
+}
