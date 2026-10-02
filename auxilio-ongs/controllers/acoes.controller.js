@@ -1,4 +1,4 @@
-import { acoes, campanhas, usuarios } from '../data/database.js';
+import { acoes, campanhas, usuarios, escalas } from '../data/database.js';
 
 export function listarAcoes(req, res) {
     res.status(200).json(acoes);

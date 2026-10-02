@@ -4,7 +4,7 @@ import {
     listarAcoes,
     buscarAcao,
     criarAcao,
-    adicionarVoluntario,
+    escalarVoluntario,
     listarVoluntarios
 } from "../controllers/acoes.controller.js";
 
@@ -16,7 +16,7 @@ router.get("/:id", listarAcoes);
 
 router.post("/", criarAcao);
 
-router.post("/:id/voluntarios", adicionarVoluntario);
+router.post("/:id/voluntarios", escalarVoluntario);
 
 router.get("/:id/voluntarios", listarVoluntarios);
 
