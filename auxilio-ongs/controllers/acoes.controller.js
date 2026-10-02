@@ -158,3 +158,23 @@ export function listarVoluntarios(req, res) {
 
         res.status(200).json(voluntarios)
 }
+
+export function deletarAcao(req, res) {
+    const id = Number(req.params.id);
+
+    const acao = acoes.find(
+        acao => acao.id === id
+    );
+
+    if(!acao || acao <= 0) {
+        return res.status(404).json(
+            {error: "Ação não encontrada."}
+        )
+    };
+
+    acoes.splice(acao, 1);
+    
+    return res.status(200).json(
+        {mensagem: "Ação deletada."}
+    )
+}
