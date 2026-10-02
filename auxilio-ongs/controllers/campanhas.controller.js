@@ -1,4 +1,4 @@
-import { campanhas } from "../data/database.js";
+import { campanhas, acoes } from "../data/database.js";
 
 export function listarCampanhas(req, res) {
     res.status(200).json(campanhas);
@@ -22,6 +22,10 @@ export function buscarCampanha(req, res) {
         0
     );
 
+    const acoesCampanha = acoes.filter(
+        acao => acao.campanhaId === id
+    )
+
     const metaAlcançada = campanha.arrecadado >= campanha.meta
 
 
@@ -30,7 +34,8 @@ export function buscarCampanha(req, res) {
             faltam,
             mensagem: metaAlcançada
                 ? "Meta alcançada!"
-                : `Faltam R$ ${faltam.toFixed(2)} para atingir a meta.`
+                : `Faltam R$ ${faltam.toFixed(2)} para atingir a meta.`,
+            acoes: acoesCampanha
         }
     );
 }
