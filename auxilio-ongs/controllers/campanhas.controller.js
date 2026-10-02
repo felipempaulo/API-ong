@@ -22,9 +22,15 @@ export function buscarCampanha(req, res) {
         0
     );
 
+    const metaAlcançada = campanha.arrecadado >= campanha.meta
+
+
     res.status(200).json(
         {...campanha,
-            faltam
+            faltam,
+            mensagem: metaAlcançada
+                ? "Meta alcançada!"
+                : `Faltam R$ ${faltam.toFixed(2)} para atingir a meta.`
         }
     );
 }
