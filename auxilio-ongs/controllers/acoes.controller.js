@@ -127,3 +127,27 @@ export function escalarVoluntario(req, res) {
 
     res.status(201).json(novaEscala);
 }
+
+export function listarVoluntários(req, res) {
+    const acaoId = Number(req.params.id);
+
+    const acao = acoes.find(
+        acao => acao.id === acaoId
+    );
+
+    if(!acao) {
+        return res.status(404).json(
+            {error: "Ação não encontrada."}
+        )
+    };
+
+    const voluntarios = escalas
+        .filter(escala => escala.acaoId === acaoId)
+        .map(escala => {
+            return usuarios.find(
+                usuario => usuario.id === escala.usuarioId
+            );
+        });
+
+        res.status(200).json(voluntarios)
+}
