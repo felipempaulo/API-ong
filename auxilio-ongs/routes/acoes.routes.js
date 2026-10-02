@@ -5,7 +5,8 @@ import {
     buscarAcao,
     criarAcao,
     escalarVoluntario,
-    listarVoluntarios
+    listarVoluntarios,
+    deletarAcao
 } from "../controllers/acoes.controller.js";
 
 const router = express.Router();
@@ -19,5 +20,7 @@ router.post("/", criarAcao);
 router.post("/:id/voluntarios", escalarVoluntario);
 
 router.get("/:id/voluntarios", listarVoluntarios);
+
+router.delete("/:id", deletarAcao);
 
 export default router;
