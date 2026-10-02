@@ -1,4 +1,4 @@
-import { campanhas, acoes } from "../data/database.js";
+import { campanhas, acoes, usuarios } from "../data/database.js";
 
 export function listarCampanhas(req, res) {
     res.status(200).json(campanhas);
@@ -72,4 +72,24 @@ export function criarCampanha(req, res) {
    campanhas.push(campanhaCriada);
 
    res.status(201).json(campanhaCriada);
+}
+
+export function deletarCampanha(req, res) {
+    const id = Number(req.params.id);
+
+    const campanha = campanhas.find(
+        campanha => campanha.id === id
+    );
+
+    if(!campanha || campanha <= 0) {
+        return res.status(404).json(
+            {error: "Campanha não encontrada."}
+        )
+    };
+
+    campanhas.splice(campanha, 1);
+
+    return res.status(200).json(
+        {mensagem: "Campanha deletada."}
+    )
 }
