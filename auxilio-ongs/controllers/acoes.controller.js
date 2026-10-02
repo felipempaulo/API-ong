@@ -64,3 +64,66 @@ export function criarAcao(req, res) {
 
     res.status(201).json(novaAcao);
 }
+
+export function escalarVoluntario(req, res) {
+    const acaoId = Number(req.params.id);
+    const {usuarioId} = req.body;
+
+    const acao = acoes.find(
+        acao => acao.id === acaoId
+    );
+
+    if(!acao) {
+        return res.status(404).json(
+            {error: "Ação não encontrada."}
+        )
+    };
+
+    const usuario = usuarios.find(
+        usuario => usuario.id === Number(usuarioId)
+    );
+
+    if(!usuario) {
+        return res.status(404).json(
+            {error: "Usuário não encontrado."}
+        )
+    };
+
+    if(usuario.tipo !== "VOLUNTARIO") {
+        return res.status(400).json(
+            {error: "Apenas usuários voluntarios podem participar de ações."}
+        )
+    };
+
+    const jaEscalado = escalas.find(
+        escala => 
+            escala.acaoId === acaoId &&
+        escala.usuarioId === Number(usuarioId)
+    );
+
+    if(jaEscalado) {
+        return res.status(400).json(
+            {error: "Esse voluntário já está escalado para a ação."}
+        )
+    };
+
+    const quantidadeVoluntarios = escalas.filter(
+        escala => escala.acaoId === acaoId
+    ).length;
+
+    if(quantidadeVoluntarios >= acao.vagas) {
+        return res.status(400).json(
+            {error: "Não há mais vagas para a ação."}
+        )
+    };
+
+    const novaEscala = {
+        id: escalas.length +1,
+        acaoId,
+        usuarioId: Number(usuarioId)
+    };
+
+    escalas.push(novaEscala);
+
+    res.status(201).json(novaEscala);
+}
