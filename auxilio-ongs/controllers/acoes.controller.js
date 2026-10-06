@@ -178,3 +178,68 @@ export function deletarAcao(req, res) {
         {mensagem: "Ação deletada."}
     )
 }
+
+export function editarAcao(req, res) {
+    const id = Number(req.params.id);
+    const { titulo, descricao, data, vagas } = req.body;
+
+    const acao = acoes.find(
+        acao => acao.id === id
+    );  
+
+    if(!acao) {
+        return res.status(404).json(
+            {error: "Ação não encontrada."}
+        );
+    }
+
+    if(titulo) acao.titulo = titulo;
+    if(descricao) acao.descricao = descricao;
+    if(data) acao.data = data;
+    if(vagas) acao.vagas = Number(vagas);
+
+    res.status(200).json(acao);
+}
+
+export function deletarVoluntario(req, res) {
+    const acaoId = Number(req.params.id);
+    const usuarioId = Number(req.body.usuarioId);
+
+    const acao = acoes.find(
+        acao => acao.id === acaoId
+    );
+
+    if(!acao) {
+        return res.status(404).json(
+            {error: "Ação não encontrada."}
+        )
+    };
+
+    const usuario = usuarios.find(
+        usuario => usuario.id === usuarioId
+    );  
+
+    if(!usuario) {
+        return res.status(404).json(
+            {error: "Usuário não encontrado."}
+        )
+    };
+
+    const escalaIndex = escalas.findIndex(
+        escala => 
+            escala.acaoId === acaoId &&
+        escala.usuarioId === usuarioId
+    );          
+
+    if(escalaIndex === -1) {
+        return res.status(404).json(
+            {error: "Voluntário não está escalado para a ação."}
+        )
+    };
+
+    escalas.splice(escalaIndex, 1);
+
+    res.status(200).json(
+        {mensagem: "Voluntário removido da ação."}
+    )
+}
