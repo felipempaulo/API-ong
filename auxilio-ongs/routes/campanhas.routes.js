@@ -4,7 +4,8 @@ import {
     listarCampanhas,
     buscarCampanha,
     criarCampanha,
-    deletarCampanha
+    deletarCampanha,
+    editarCampanha
 } from "../controllers/campanhas.controller.js"
 
 const router = express.Router();
@@ -15,6 +16,8 @@ router.get("/:id", buscarCampanha);
 
 router.post("/", criarCampanha);
 
-router.delete("/:id", deletarCampanha)
+router.delete("/:id", deletarCampanha);
+
+router.patch("/:id", editarCampanha);
 
 export default router;
