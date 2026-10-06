@@ -93,24 +93,3 @@ export function deletarCampanha(req, res) {
         {mensagem: "Campanha deletada."}
     )
 }
-
-export function editarCampanha(req, res) {
-    const id = Number(req.params.id);
-    const { titulo, meta, objetivo } = req.body;
-
-    const campanha = campanhas.find(
-        campanha => campanha.id === id
-    );
-
-    if(!campanha) {
-        return res.status(404).json(
-            {error: "Campanha não encontrada."}
-        );
-    }
-
-    if(titulo) campanha.titulo = titulo;
-    if(meta) campanha.meta = meta;
-    if(objetivo) campanha.objetivo = objetivo;
-
-    return res.status(200).json(campanha);
-}
