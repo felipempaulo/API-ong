@@ -1,4 +1,4 @@
-import { campanhas } from "../data/database.js";
+import { campanhas, acoes, usuarios } from "../data/database.js";
 
 export function listarCampanhas(req, res) {
     res.status(200).json(campanhas);
@@ -22,6 +22,10 @@ export function buscarCampanha(req, res) {
         0
     );
 
+    const acoesCampanha = acoes.filter(
+        acao => acao.campanhaId === id
+    )
+
     const metaAlcançada = campanha.arrecadado >= campanha.meta
 
 
@@ -30,13 +34,14 @@ export function buscarCampanha(req, res) {
             faltam,
             mensagem: metaAlcançada
                 ? "Meta alcançada!"
-                : `Faltam R$ ${faltam.toFixed(2)} para atingir a meta.`
+                : `Faltam R$ ${faltam.toFixed(2)} para atingir a meta.`,
+            acoes: acoesCampanha
         }
     );
 }
 
 export function criarCampanha(req, res) {
-    const {titulo, meta} = req.body;
+    const {titulo, meta, objetivo } = req.body;
 
     if(!titulo) {
     return res.status(400).json(
@@ -50,10 +55,17 @@ export function criarCampanha(req, res) {
     )
    }
 
+   if(!objetivo) {
+    return res.status(400).json(
+        {error: 'O campo de objetivo é obrigatório.'}
+    )
+   }
+
    const campanhaCriada = {
     id: campanhas.length +1,
     titulo,
     meta,
+    objetivo,
     arrecadado: 0
    };
 
@@ -80,25 +92,4 @@ export function deletarCampanha(req, res) {
     return res.status(200).json(
         {mensagem: "Campanha deletada."}
     )
-}
-
-export function editarCampanha(req, res) {
-    const id = Number(req.params.id);
-    const { titulo, meta, objetivo } = req.body;
-
-    const campanha = campanhas.find(
-        campanha => campanha.id === id
-    );
-
-    if(!campanha) {
-        return res.status(404).json(
-            {error: "Campanha não encontrada."}
-        );
-    }
-
-    if(titulo) campanha.titulo = titulo;
-    if(meta) campanha.meta = meta;
-    if(objetivo) campanha.objetivo = objetivo;
-
-    return res.status(200).json(campanha);
 }

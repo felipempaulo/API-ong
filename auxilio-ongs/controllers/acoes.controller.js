@@ -11,20 +11,13 @@ export function buscarAcao(req, res) {
         acao => acao.id === id
     );
 
-    const campanha = campanhas.find(
-        campanha => campanha.id === acao.campanhaId
-    )
-
     if(!acao) {
         return res.status(404).json(
             {error: "Ação não encontrada."}
         )
     };
 
-    res.status(200).json({
-        ...acao,
-        campanha
-    })
+    res.status(200).json(acao)
 };
 
 export function criarAcao(req, res) {
@@ -157,7 +150,6 @@ export function listarVoluntarios(req, res) {
         });
 
         res.status(200).json(voluntarios)
-
 }
 
 export function deletarAcao(req, res) {
