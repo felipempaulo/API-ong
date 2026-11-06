@@ -1,0 +1,24 @@
+{
+  "name": "auxilio-ongs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:up": "docker start mongo-ongs || docker run -d --name mongo-ongs -p 127.0.0.1:27017:27017 -v mongo-ongs-data:/data/db mongo:8",
+    "db:down": "docker stop mongo-ongs",
+    "db:logs": "docker logs -f mongo-ongs",
+    "db:reset": "docker rm -f mongo-ongs; docker volume rm mongo-ongs-data",
+    "predev": "npm run db:up",
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.8.0"
+  }
+}
