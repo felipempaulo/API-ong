@@ -16,8 +16,8 @@ router.get("/:id", buscarCampanha);
 
 router.post("/", criarCampanha);
 
-router.delete("/:id", deletarCampanha)
+router.delete("/:id", deletarCampanha);
 
-router.patch("/:id", editarCampanha)
+router.patch("/:id", editarCampanha);
 
 export default router;

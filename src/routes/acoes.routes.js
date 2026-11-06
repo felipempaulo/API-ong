@@ -6,6 +6,7 @@ import {
     criarAcao,
     escalarVoluntario,
     listarVoluntarios,
+    deletarAcao,
     editarAcao,
     deletarVoluntario
 } from "../controllers/acoes.controller.js";
@@ -14,7 +15,7 @@ const router = express.Router();
 
 router.get("/", listarAcoes);
 
-router.get("/:id", buscarAcao);
+router.get("/:id", listarAcoes);
 
 router.post("/", criarAcao);
 
@@ -25,5 +26,11 @@ router.get("/:id/voluntarios", listarVoluntarios);
 router.patch("/:id", editarAcao);
 
 router.delete("/:id/voluntarios", deletarVoluntario);
+
+router.delete("/:id", deletarAcao);
+
+router.patch("/:id", editarAcao);
+
+router.delete("/:id/voluntarios/:usuarioId", deletarVoluntario);
 
 export default router;
