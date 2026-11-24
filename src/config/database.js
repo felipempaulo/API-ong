@@ -46,6 +46,10 @@ export function colecaoUsuarios() {
   return db.collection('usuarios')
 }
 
+export function obterBanco() {
+  return db;
+}
+
 export async function desconectar() {
   if (client) {
     await client.close();

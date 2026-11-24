@@ -1,4 +1,5 @@
 import { campanhas, acoes, usuarios } from "../data/database.js";
+import * as service from '../services/campanhas.service.js';
 
 export function listarCampanhas(req, res) {
     res.status(200).json(campanhas);
@@ -40,38 +41,12 @@ export function buscarCampanha(req, res) {
     );
 }
 
-export function criarCampanha(req, res) {
-    const {titulo, meta, objetivo } = req.body;
+export async function criarCampanha(req, res) {
+    const novaCampanha = req.body;
 
-    if(!titulo) {
-    return res.status(400).json(
-        {error: 'O campo de título é obrigatório.'}
-    );
-   }
+    const documentoCriado = await service.criar(novaCampanha);
 
-   if(!meta || meta <= 0) {
-    return res.status(400).json(
-        {error: 'O campo de meta é obrigatório e deve ser maior que zero.'}
-    )
-   }
-
-   if(!objetivo) {
-    return res.status(400).json(
-        {error: 'O campo de objetivo é obrigatório.'}
-    )
-   }
-
-   const campanhaCriada = {
-    id: campanhas.length +1,
-    titulo,
-    meta,
-    objetivo,
-    arrecadado: 0
-   };
-
-   campanhas.push(campanhaCriada);
-
-   res.status(201).json(campanhaCriada);
+   res.status(201).json(documentoCriado);
 }
 
 export function deletarCampanha(req, res) {
