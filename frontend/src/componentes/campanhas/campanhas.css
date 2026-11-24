@@ -1,0 +1,171 @@
+.campanhas {
+  max-width: 1200px;
+  margin: 0 auto 70px;
+  padding: 0 30px;
+}
+
+.campanhas-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.campanhas-subtitulo {
+  color: #8c59a7;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campanhas-titulo h2 {
+  color: #351b3d;
+  font-size: 34px;
+  margin-top: 8px;
+}
+
+.campanhas-titulo a {
+  color: #512461;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.campanhas-lista {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.campanha-card {
+  background-color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 5px 18px rgba(53, 27, 61, 0.10);
+  transition: 0.3s;
+}
+
+.campanha-card:hover {
+  transform: translateY(-5px);
+}
+
+.campanha-imagem {
+  height: 220px;
+  position: relative;
+}
+
+.campanha-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.campanha-categoria {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+
+  padding: 8px 15px;
+  border-radius: 30px;
+
+  color: #512461;
+  background-color: #ead8f2;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.campanha-conteudo {
+  padding: 22px;
+}
+
+.campanha-conteudo h3 {
+  font-size: 20px;
+  color: #351b3d;
+  margin-bottom: 12px;
+}
+
+.campanha-conteudo p {
+  color: #695b6e;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 65px;
+}
+
+.campanha-progresso {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 12px;
+}
+
+.progresso-barra {
+  flex: 1;
+  height: 9px;
+  border-radius: 20px;
+  background-color: #f0e5f2;
+  overflow: hidden;
+}
+
+.progresso-preenchido {
+  height: 100%;
+  background-color: #79418c;
+  border-radius: 20px;
+}
+
+.campanha-progresso span {
+  color: #512461;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.campanha-valores {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  color: #68516f;
+  margin-bottom: 20px;
+}
+
+.campanha-botao {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+
+  background-color: #512461;
+  color: white;
+
+  padding: 13px;
+  border-radius: 30px;
+
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.campanha-botao:hover {
+  background-color: #79438d;
+}
+
+@media (max-width: 900px) {
+  .campanhas-lista {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .campanhas-lista {
+    grid-template-columns: 1fr;
+  }
+
+  .campanhas-titulo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .campanhas-titulo h2 {
+    font-size: 28px;
+  }
+
+  .campanha-imagem {
+    height: 230px;
+  }
+}
