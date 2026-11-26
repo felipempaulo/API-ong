@@ -18,11 +18,11 @@ export default function Cabecalho({ onNavigate }) {
         </nav>
 
          <div className="botoes-acesso">
-        <button onClick={() => onNavigate('entrar')}>
+        <button className="botao-login" onClick={() => onNavigate('entrar')}>
         Entrar
         </button>
 
-        <button onClick={() => onNavigate('cadastro')}>
+        <button className="botao-login" onClick={() => onNavigate('cadastro')}>
         Cadastrar
         </button>
         </div>

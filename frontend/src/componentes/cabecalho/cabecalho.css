@@ -91,3 +91,10 @@
     padding: 10px 16px;
   }
 }
+
+.botoes-login {
+  display: flex;
+  background-color: #351b3d;
+  color: white;
+  border-radius: 30px;
+}
