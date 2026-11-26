@@ -1,0 +1,204 @@
+
+.cadastro-pagina {
+  min-height: 100vh;
+  padding: 35px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff9f6;
+}
+
+.cadastro-container {
+  width: 100%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  background: white;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(53, 27, 61, 0.12);
+}
+
+.cadastro-apresentacao {
+  padding: 45px;
+  background: linear-gradient(145deg, #512461, #79418b);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cadastro-logo {
+  color: white;
+  text-decoration: none;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.cadastro-logo span {
+  color: #e5c5ed;
+  font-size: 35px;
+}
+
+.cadastro-mensagem span,
+.cadastro-cabecalho span {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.cadastro-mensagem h1 {
+  font-size: 40px;
+  line-height: 1.2;
+  margin: 20px 0;
+}
+
+.cadastro-mensagem p {
+  color: #f0e1f4;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.cadastro-frase {
+  color: #f0e1f4;
+  font-size: 14px;
+}
+
+.cadastro-formulario {
+  padding: 40px 50px;
+}
+
+.cadastro-cabecalho span {
+  color: #8955a0;
+}
+
+.cadastro-cabecalho h2 {
+  color: #351b3d;
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+.cadastro-cabecalho p {
+  color: #786b7c;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.campo-cadastro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.campo-cadastro label {
+  color: #351b3d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.campo-cadastro input,
+.campo-cadastro select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #e3d5e8;
+  border-radius: 10px;
+  background: #fff9fc;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: #59465e;
+}
+
+.campo-cadastro input:focus,
+.campo-cadastro select:focus {
+  border-color: #79418b;
+  box-shadow: 0 0 0 3px #ead8f2;
+}
+
+.termos-cadastro {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 20px 0;
+  color: #695b6e;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.termos-cadastro input {
+  accent-color: #512461;
+  margin-top: 3px;
+}
+
+.botao-cadastro {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 30px;
+  background: #512461;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  transition: 0.3s;
+}
+
+.botao-cadastro:hover {
+  background: #79418b;
+  transform: translateY(-2px);
+}
+
+.cadastro-alternativa {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 14px;
+  color: #786b7c;
+}
+
+.cadastro-alternativa button {
+  background: none;
+  border: none;
+  color: #79418b;
+  font-size: 14px;
+  font-weight: 800;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.cadastro-voltar {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #786b7c;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.cadastro-voltar:hover {
+  color: #79418b;
+}
+
+@media (max-width: 768px) {
+  .cadastro-container {
+    grid-template-columns: 1fr;
+  }
+
+  .cadastro-apresentacao {
+    min-height: 270px;
+    padding: 30px;
+  }
+
+  .cadastro-mensagem h1 {
+    font-size: 30px;
+  }
+
+  .cadastro-frase {
+    margin-top: 25px;
+  }
+
+  .cadastro-formulario {
+    padding: 35px 25px;
+  }
+}
+

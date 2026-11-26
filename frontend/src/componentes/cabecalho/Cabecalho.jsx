@@ -1,6 +1,6 @@
 import './cabecalho.css'
 
-export default function Cabecalho() {
+export default function Cabecalho({ onNavigate }) {
   return (
     <header className="cabecalho">
       <div className="cabecalho-container">
@@ -17,9 +17,15 @@ export default function Cabecalho() {
           <a href="#contato">Contato</a>
         </nav>
 
-        <a href="#login" className="botao-login">
-          Entrar / Cadastrar
-        </a>
+         <div className="botoes-acesso">
+        <button onClick={() => onNavigate('entrar')}>
+        Entrar
+        </button>
+
+        <button onClick={() => onNavigate('cadastro')}>
+        Cadastrar
+        </button>
+        </div>
 
       </div>
     </header>
