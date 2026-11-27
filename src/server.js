@@ -17,7 +17,7 @@ try {
 }
 
 const app = express();
-const PORTA = 3000;
+const PORTA = process.env.PORT ?? 3000;
 
 app.use(express.json());
 

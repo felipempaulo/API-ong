@@ -1,191 +1,37 @@
-import * as service from "../services/acoes.service.js";
-import { acoes, campanhas, usuarios, escalas } from "../data/database.js";
+import * as service from '../services/acoes.service.js';
+import { comTratamento } from '../utils/tratamento.js';
 
-export async function listarAcoes(req, res) {
-  try {
-    res.json(await service.listar());
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Erro interno ao listar as ações" });
-  }
-}
+export const listarAcoes = comTratamento('Erro interno ao listar as ações.', async (req, res) => {
+  res.status(200).json(await service.listar());
+});
 
-export function buscarAcao(req, res) {
-  const id = Number(req.params.id);
+export const buscarAcao = comTratamento('Erro interno ao buscar a ação.', async (req, res) => {
+  res.status(200).json(await service.buscar(req.params.id));
+});
 
-  const acao = acoes.find((acao) => acao.id === id);
+export const criarAcao = comTratamento('Erro interno ao criar a ação.', async (req, res) => {
+  res.status(201).json(await service.criar(req.body ?? {}));
+});
 
-  const campanha = campanhas.find(
-    (campanha) => campanha.id === acao.campanhaId,
-  );
+export const editarAcao = comTratamento('Erro interno ao editar a ação.', async (req, res) => {
+  res.status(200).json(await service.editar(req.params.id, req.body ?? {}));
+});
 
-  if (!acao) {
-    return res.status(404).json({ error: "Ação não encontrada." });
-  }
+export const deletarAcao = comTratamento('Erro interno ao deletar a ação.', async (req, res) => {
+  await service.deletar(req.params.id);
+  res.status(200).json({ mensagem: 'Ação deletada.' });
+});
 
-  res.status(200).json({
-    ...acao,
-    campanha,
-  });
-}
+export const escalarVoluntario = comTratamento('Erro interno ao escalar o voluntário.', async (req, res) => {
+  res.status(201).json(await service.escalarVoluntario(req.params.id, req.body ?? {}));
+});
 
-export function criarAcao(req, res) {
-  const { campanhaId, titulo, descricao, data, vagas } = req.body;
+export const listarVoluntarios = comTratamento('Erro interno ao listar os voluntários.', async (req, res) => {
+  res.status(200).json(await service.listarVoluntarios(req.params.id));
+});
 
-  if (!campanhaId || !titulo || !descricao || !data || !vagas) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "A campanha, titulo, descrição, data e vagas são campos obrigatórios.",
-      });
-  }
-
-  const campanha = campanhas.find(
-    (campanha) => campanha.id === Number(campanhaId),
-  );
-
-  if (!campanha) {
-    return res.status(404).json({ error: "Campanha não encontrada." });
-  }
-
-  if (vagas <= 0) {
-    return res
-      .status(400)
-      .json({ error: "O número de vagas deve ser maior que zero." });
-  }
-
-  const novaAcao = {
-    id: acoes.length + 1,
-    campanhaId: Number(campanhaId),
-    titulo,
-    descricao,
-    data,
-    vagas: Number(vagas),
-  };
-
-  acoes.push(novaAcao);
-
-  res.status(201).json(novaAcao);
-}
-
-export function escalarVoluntario(req, res) {
-  const acaoId = Number(req.params.id);
-  const { usuarioId } = req.body;
-
-  const acao = acoes.find((acao) => acao.id === acaoId);
-
-  if (!acao) {
-    return res.status(404).json({ error: "Ação não encontrada." });
-  }
-
-  const usuario = usuarios.find((usuario) => usuario.id === Number(usuarioId));
-
-  if (!usuario) {
-    return res.status(404).json({ error: "Usuário não encontrado." });
-  }
-
-  if (usuario.tipo !== "VOLUNTARIO") {
-    return res
-      .status(400)
-      .json({
-        error: "Apenas usuários voluntarios podem participar de ações.",
-      });
-  }
-
-  const jaEscalado = escalas.find(
-    (escala) =>
-      escala.acaoId === acaoId && escala.usuarioId === Number(usuarioId),
-  );
-
-  if (jaEscalado) {
-    return res
-      .status(400)
-      .json({ error: "Esse voluntário já está escalado para a ação." });
-  }
-
-  const quantidadeVoluntarios = escalas.filter(
-    (escala) => escala.acaoId === acaoId,
-  ).length;
-
-  if (quantidadeVoluntarios >= acao.vagas) {
-    return res.status(400).json({ error: "Não há mais vagas para a ação." });
-  }
-
-  const novaEscala = {
-    id: escalas.length + 1,
-    acaoId,
-    usuarioId: Number(usuarioId),
-  };
-
-  escalas.push(novaEscala);
-
-  res.status(201).json(novaEscala);
-}
-
-export function listarVoluntarios(req, res) {
-  const acaoId = Number(req.params.id);
-
-  const acao = acoes.find((acao) => acao.id === acaoId);
-
-  if (!acao) {
-    return res.status(404).json({ error: "Ação não encontrada." });
-  }
-
-  const voluntarios = escalas
-    .filter((escala) => escala.acaoId === acaoId)
-    .map((escala) => {
-      return usuarios.find((usuario) => usuario.id === escala.usuarioId);
-    });
-
-  res.status(200).json(voluntarios);
-}
-
-export function editarAcao(req, res) {
-  const id = Number(req.params.id);
-  const { titulo, descricao, data, vagas } = req.body;
-
-  const acao = acoes.find((acao) => acao.id === id);
-
-  if (!acao) {
-    return res.status(404).json({ error: "Ação não encontrada." });
-  }
-
-  if (titulo) acao.titulo = titulo;
-  if (descricao) acao.descricao = descricao;
-  if (data) acao.data = data;
-  if (vagas) acao.vagas = Number(vagas);
-
-  res.status(200).json(acao);
-}
-
-export function deletarVoluntario(req, res) {
-  const acaoId = Number(req.params.id);
-  const usuarioId = Number(req.body.usuarioId);
-
-  const acao = acoes.find((acao) => acao.id === acaoId);
-
-  if (!acao) {
-    return res.status(404).json({ error: "Ação não encontrada." });
-  }
-
-  const usuario = usuarios.find((usuario) => usuario.id === usuarioId);
-
-  if (!usuario) {
-    return res.status(404).json({ error: "Usuário não encontrado." });
-  }
-
-  const escalaIndex = escalas.findIndex(
-    (escala) => escala.acaoId === acaoId && escala.usuarioId === usuarioId,
-  );
-
-  if (escalaIndex === -1) {
-    return res
-      .status(404)
-      .json({ error: "Voluntário não está escalado para a ação." });
-  }
-
-  escalas.splice(escalaIndex, 1);
-
-  res.status(200).json({ mensagem: "Voluntário removido da ação." });
-}
+export const deletarVoluntario = comTratamento('Erro interno ao remover o voluntário.', async (req, res) => {
+  const usuarioId = req.params.usuarioId ?? req.body?.usuarioId;
+  await service.removerVoluntario(req.params.id, usuarioId);
+  res.status(200).json({ mensagem: 'Voluntário removido da ação.' });
+});

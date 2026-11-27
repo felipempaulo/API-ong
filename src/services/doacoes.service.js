@@ -1,6 +1,13 @@
 import * as doacaoModel from "../models/doacoes.model.js";
 import * as campanhaModel from "../models/campanhas.model.js"
 import * as usuarioModel from "../models/usuarioes.model.js"
+import { ErroDeValidacao, ErroNaoEncontrado } from '../errors.js';
+import { formatarDoacao } from '../utils/formatadores.js';
+
+export async function listar() {
+  const documentos = await doacoesModel.buscarTodas();
+  return documentos.map(formatarDoacao);
+}
 
 export async function criar({ campanhaId, usuarioId, valor, anonima = false }) {
   
