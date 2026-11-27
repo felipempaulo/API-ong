@@ -1,34 +1,23 @@
-import { usuarios } from "../data/database.js";
+import * as service from '../services/usuarios.service.js';
+import { comTratamento } from '../utils/tratamento.js';
 
-export function criarUsuario(req, res) {
-    const { nome, email, tipo } = req.body;
+export const listarUsuarios = comTratamento('Erro interno ao listar os usuários.', async (req, res) => {
+  res.status(200).json(await service.listar());
+});
 
-    if(!nome || !email || !tipo) {
-        return res.status(400).json(
-            {error: "Nome, email e tipo são obrigatórios."}
-        )
-    };
+export const buscarUsuario = comTratamento('Erro interno ao buscar o usuário.', async (req, res) => {
+  res.status(200).json(await service.buscar(req.params.id));
+});
 
-    const tiposPermitidos = [
-        "DOADOR",
-        "VOLUNTARIO",
-        "ADMIN"
-    ];
+export const criarUsuario = comTratamento('Erro interno ao criar o usuário.', async (req, res) => {
+  res.status(201).json(await service.criar(req.body ?? {}));
+});
 
-    if(!tiposPermitidos.includes(tipo)) {
-        return res.status(400).json(
-            {error: "Tipo de usuário inválido."}
-        )
-    };
+export const editarUsuario = comTratamento('Erro interno ao editar o usuário.', async (req, res) => {
+  res.status(200).json(await service.editar(req.params.id, req.body ?? {}));
+});
 
-    const usuarioCriado = {
-        id: usuarios.length +1,
-        nome,
-        email,
-        tipo
-    };
-
-    usuarios.push(usuarioCriado);
-
-    res.status(201).json(usuarioCriado);
-}
+export const deletarUsuario = comTratamento('Erro interno ao deletar o usuário.', async (req, res) => {
+  await service.deletar(req.params.id);
+  res.status(200).json({ mensagem: 'Usuário deletado.' });
+});

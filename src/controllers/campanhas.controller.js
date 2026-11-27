@@ -1,98 +1,23 @@
-import { campanhas, acoes, usuarios } from "../data/database.js";
 import * as service from '../services/campanhas.service.js';
+import { comTratamento } from '../utils/tratamento.js';
 
-export function listarCampanhas(req, res) {
-    res.status(200).json(campanhas);
-}
+export const listarCampanhas = comTratamento('Erro interno ao listar as campanhas.', async (req, res) => {
+  res.status(200).json(await service.listar());
+});
 
-export function buscarCampanha(req, res) {
-    const id = Number(req.params.id);
+export const buscarCampanha = comTratamento('Erro interno ao buscar a campanha.', async (req, res) => {
+  res.status(200).json(await service.buscar(req.params.id));
+});
 
-    const campanha = campanhas.find(
-        campanha => campanha.id === id
-    );
+export const criarCampanha = comTratamento('Erro interno ao criar a campanha.', async (req, res) => {
+  res.status(201).json(await service.criar(req.body ?? {}));
+});
 
-    if(!campanha) {
-        return res.status(404).json(
-            {error: "Campanha não encontrada."}
-        );
-    }
+export const editarCampanha = comTratamento('Erro interno ao editar a campanha.', async (req, res) => {
+  res.status(200).json(await service.editar(req.params.id, req.body ?? {}));
+});
 
-    const faltam = Math.max(
-        campanha.meta - campanha.arrecadado,
-        0
-    );
-
-    const acoesCampanha = acoes.filter(
-        acao => acao.campanhaId === id
-    )
-
-    const metaAlcançada = campanha.arrecadado >= campanha.meta
-
-
-    res.status(200).json(
-        {...campanha,
-            faltam,
-            mensagem: metaAlcançada
-                ? "Meta alcançada!"
-                : `Faltam R$ ${faltam.toFixed(2)} para atingir a meta.`,
-            acoes: acoesCampanha
-        }
-    );
-}
-
-export async function criarCampanha(req, res) {
-    const novaCampanha = req.body;
-
-    const documentoCriado = await service.criar(novaCampanha);
-
-   res.status(201).json(documentoCriado);
-}
-
-export function deletarCampanha(req, res) {
-    const id = Number(req.params.id);
-
-    const campanha = campanhas.find(
-        campanha => campanha.id === id
-    );
-
-    if(!campanha || campanha <= 0) {
-        return res.status(404).json(
-            {error: "Campanha não encontrada."}
-        )
-    };
-
-    campanhas.splice(campanha, 1);
-
-    return res.status(200).json(
-        {mensagem: "Campanha deletada."}
-    )
-}
-
-export function editarCampanha(req, res) {
-    const id = Number(req.params.id);
-
-    const campanha = campanhas.find(
-        campanha => campanha.id === id
-    );
-
-    if(!campanha) {
-        return res.status(404).json(
-            {error: "Campanha não encontrada."}
-        )
-    }
-
-    const {titulo, meta, objetivo } = req.body;
-
-    if(titulo) {
-        campanha.titulo = titulo;
-    }
-    if(meta) {
-        campanha.meta = meta;
-    }
-    if(objetivo) {
-        campanha.objetivo = objetivo;
-    }
-
-    res.status(200).json(campanha);
-}
+export const deletarCampanha = comTratamento('Erro interno ao deletar a campanha.', async (req, res) => {
+  await service.deletar(req.params.id);
+  res.status(200).json({ mensagem: 'Campanha deletada.' });
+});
